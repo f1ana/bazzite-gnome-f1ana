@@ -11,9 +11,7 @@ image-version: stable-43 # latest is also supported
 modules:
   - type: rpm-ostree
     repos:
-      - https://packages.microsoft.com/yumrepos/vscode
-    keys:
-      - https://packages.microsoft.com/keys/microsoft.asc
+      - vscode.repo
     install:
       - code
 
