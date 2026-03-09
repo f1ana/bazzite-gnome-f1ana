@@ -3,8 +3,11 @@ on:
   schedule:
     - cron: "40 10 * * 1" # 8:40 utc monday
   push:
-    paths-ignore: # don't rebuild if only documentation has changed
+    branches:
+      - main
+    paths-ignore: # don't rebuild if only documentation or workflows have changed
       - "**.md"
+      - ".github/**"
   workflow_dispatch: # allow manually triggering builds
 concurrency:
   # only run one build at a time
