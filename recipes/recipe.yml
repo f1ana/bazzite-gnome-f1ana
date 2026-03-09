@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+# image will be published to ghcr.io/<user>/<name>
+name: bazzite-gnome-f1ana
+description: Personal Bazzite GNOME image with native dev tools and browsers.
+
+# base image to build on top of
+base-image: ghcr.io/ublue-os/bazzite-gnome
+image-version: stable-43 # latest is also supported
+
+modules:
+  - type: rpm-ostree
+    repos:
+      - https://packages.microsoft.com/yumrepos/vscode
+    keys:
+      - https://packages.microsoft.com/keys/microsoft.asc
+    install:
+      - code
+
+  - type: rpm-ostree
+    repos:
+      - https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+    keys:
+      - https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+    install:
+      - brave-browser
+
+  - type: rpm-ostree
+    install:
+      - chromium
+      - chromium-libs-media-freeworld
+      - obs-studio
+      - https://release.gitkraken.com/linux/gitkraken-amd64.rpm
+
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  - type: signing
