@@ -8,6 +8,13 @@ description: Personal Bazzite GNOME image with native dev tools and browsers.
 base-image: ghcr.io/ublue-os/bazzite-gnome
 image-version: stable-43 # latest is also supported
 
+# WARNING: Do not use RPM Fusion repos in this recipe. Bazzite's base image uses
+# negativo17 for multimedia and graphics packages (since Oct 2024), and RPM Fusion
+# is incompatible — they ship conflicting versions of ffmpeg, gstreamer, mesa, etc.
+# Enabling RPM Fusion will cause dependency resolution failures and broken updates.
+# See: https://github.com/ublue-os/main/pull/636
+#      https://github.com/ublue-os/main/issues/650
+
 modules:
   - type: rpm-ostree
     repos:
@@ -24,9 +31,10 @@ modules:
       - brave-browser
 
   - type: rpm-ostree
+    repos:
+      - google-chrome.repo
     install:
-      - chromium
-      - chromium-libs-media-freeworld
+      - google-chrome-stable
       - obs-studio
       - https://release.gitkraken.com/linux/gitkraken-amd64.rpm
 
