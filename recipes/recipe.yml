@@ -52,7 +52,7 @@ modules:
     repos:
       - protonvpn.repo
     install:
-      - proton-vpn-gtk-app
+      - proton-vpn-gnome-desktop
 
   - type: script
     scripts:
