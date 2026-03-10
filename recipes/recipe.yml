@@ -45,6 +45,14 @@ modules:
       - obs-studio-plugin-vkcapture
       - https://release.gitkraken.com/linux/gitkraken-amd64.rpm
       - https://github.com/nekename/OpenDeck/releases/latest/download/opendeck-2.10.0-1.x86_64.rpm
+      - https://proton.me/download/mail/linux/ProtonMail-desktop-beta.rpm
+      - https://zoom.us/client/latest/zoom_x86_64.rpm
+
+  - type: rpm-ostree
+    repos:
+      - protonvpn.repo
+    install:
+      - proton-vpn-gtk-app
 
   - type: script
     scripts:
