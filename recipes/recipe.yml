@@ -44,6 +44,7 @@ modules:
       - obs-studio
       - obs-studio-plugin-vkcapture
       - https://release.gitkraken.com/linux/gitkraken-amd64.rpm
+      - https://github.com/nekename/OpenDeck/releases/latest/download/opendeck-2.10.0-1.x86_64.rpm
 
   - type: script
     scripts:
