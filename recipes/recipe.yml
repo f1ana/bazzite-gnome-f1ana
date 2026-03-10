@@ -36,7 +36,12 @@ modules:
     install:
       - google-chrome-stable
       - obs-studio
+      - obs-studio-plugin-vkcapture
       - https://release.gitkraken.com/linux/gitkraken-amd64.rpm
+
+  - type: script
+    scripts:
+      - install-obs-pipewire-audio.sh
 
   - type: files
     files:
