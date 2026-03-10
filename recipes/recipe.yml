@@ -17,6 +17,12 @@ image-version: stable-43 # latest is also supported
 
 modules:
   - type: rpm-ostree
+    remove:
+      - libobs_vkcapture
+      - libobs_glcapture
+      - obs-vkcapture-common
+
+  - type: rpm-ostree
     repos:
       - vscode.repo
     install:
