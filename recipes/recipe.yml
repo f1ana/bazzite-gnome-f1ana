@@ -43,6 +43,8 @@ modules:
       - google-chrome-stable
       - obs-studio
       - obs-studio-plugin-vkcapture
+      - openscad
+      - openscad-bosl2
       - https://release.gitkraken.com/linux/gitkraken-amd64.rpm
       - https://github.com/nekename/OpenDeck/releases/latest/download/opendeck-2.10.0-1.x86_64.rpm
       - https://proton.me/download/mail/linux/ProtonMail-desktop-beta.rpm
