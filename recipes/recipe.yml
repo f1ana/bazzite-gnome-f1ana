@@ -6,7 +6,7 @@ description: Personal Bazzite GNOME image with native dev tools and browsers.
 
 # base image to build on top of
 base-image: ghcr.io/ublue-os/bazzite-gnome
-image-version: stable-43 # latest is also supported
+image-version: stable-44 # latest is also supported
 
 # WARNING: Do not use RPM Fusion repos in this recipe. Bazzite's base image uses
 # negativo17 for multimedia and graphics packages (since Oct 2024), and RPM Fusion
