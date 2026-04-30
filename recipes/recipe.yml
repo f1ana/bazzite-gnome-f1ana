@@ -17,6 +17,10 @@ image-version: stable-44 # latest is also supported
 
 modules:
   - type: rpm-ostree
+    install:
+      - fuse-libs  # provides libfuse.so.2 for AppImage support; dropped from F44 base
+
+  - type: rpm-ostree
     repos:
       - vscode.repo
     install:
