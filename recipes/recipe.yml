@@ -14,6 +14,7 @@ image-version: stable-44 # latest is also supported
 # Enabling RPM Fusion will cause dependency resolution failures and broken updates.
 # See: https://github.com/ublue-os/main/pull/636
 #      https://github.com/ublue-os/main/issues/650
+#
 
 modules:
   - type: rpm-ostree
