@@ -5,7 +5,7 @@ name: bazzite-gnome-f1ana
 description: Personal Bazzite GNOME image with native dev tools and browsers.
 
 # base image to build on top of
-base-image: ghcr.io/ublue-os/bazzite-gnome
+base-image: ghcr.io/ublue-os/bazzite-dx-gnome
 image-version: stable-44 # latest is also supported
 
 # WARNING: Do not use RPM Fusion repos in this recipe. Bazzite's base image uses
