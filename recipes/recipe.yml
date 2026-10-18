@@ -57,9 +57,20 @@ modules:
     scripts:
       - install-obs-pipewire-audio.sh
 
+  - type: rpm-ostree
+    install:
+      - dracut-sshd  # early-boot sshd in the initramfs, to unlock LUKS root over SSH
+
   - type: files
     files:
       - source: system
         destination: /
+
+  - type: kargs
+    kargs:
+      - rd.neednet=1  # bring up the network in the initramfs
+      - ip=dhcp
+
+  - type: initramfs  # rebuild the initramfs with dracut-sshd, its keys and config
 
   - type: signing
