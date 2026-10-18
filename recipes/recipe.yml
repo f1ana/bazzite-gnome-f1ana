@@ -75,7 +75,7 @@ modules:
 
   # Flatpaks installed on first boot. Anything already in Bazzite's own list
   # (/etc/ublue-os/system_flatpaks) is intentionally left out.
-  - type: default-flatpaks
+  - type: default-flatpaks@v1
     notify: true
     system:
       install:
