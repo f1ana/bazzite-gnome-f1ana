@@ -73,4 +73,45 @@ modules:
 
   - type: initramfs  # rebuild the initramfs with dracut-sshd, its keys and config
 
+  # Flatpaks installed on first boot. Anything already in Bazzite's own list
+  # (/etc/ublue-os/system_flatpaks) is intentionally left out.
+  - type: default-flatpaks
+    notify: true
+    system:
+      install:
+        - ai.lmstudio.lm-studio
+        - ch.protonmail.protonmail-bridge
+        - com.bitwarden.desktop
+        - com.brave.Browser
+        - com.discordapp.Discord
+        - com.geeks3d.furmark
+        - com.mattjakeman.ExtensionManager
+        - com.moonlight_stream.Moonlight
+        - com.plexamp.Plexamp
+        - com.ranfdev.DistroShelf
+        - com.slack.Slack
+        - dev.fredol.open-tv
+        - dev.lizardbyte.app.Sunshine
+        - io.ente.photos
+        - io.github.antimicrox.antimicrox
+        - io.github.astralvixen.geforce-infinity
+        - io.github.unknownskl.greenlight
+        - io.github.yuki_iptv.yuki-iptv
+        - io.kapsa.drive
+        - io.missioncenter.MissionCenter
+        - md.obsidian.Obsidian
+        - org.altlinux.Tuner
+        - org.chromium.Chromium
+        - org.filezillaproject.Filezilla
+        - org.freac.freac
+        - org.kde.isoimagewriter
+        - org.libretro.RetroArch
+        - org.mozilla.firefox
+        - org.nicotine_plus.Nicotine
+        - org.onlyoffice.desktopeditors
+        - org.remmina.Remmina
+        - org.tigervnc.vncviewer
+        - org.videolan.VLC
+        - tv.plex.PlexDesktop
+
   - type: signing
