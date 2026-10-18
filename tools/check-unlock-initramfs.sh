@@ -28,11 +28,13 @@ podman run --rm "$image" bash -c '
     img=$(ls /usr/lib/modules/*/initramfs.img | head -n1) || exit 1
     echo "@@LIST"
     lsinitrd "$img"
-    for f in etc/ssh/ssh_host_ed25519_key.pub root/.ssh/authorized_keys etc/sysconfig/dracut-sshd; do
+    for f in etc/ssh/ssh_host_ed25519_key.pub root/.ssh/authorized_keys var/roothome/.ssh/authorized_keys etc/sysconfig/dracut-sshd; do
         echo "@@FILE $f"
         lsinitrd -f "$f" "$img" 2>/dev/null | base64 -w0
         echo
     done
+    echo "@@IRSHADOW"
+    lsinitrd -f etc/shadow "$img" 2>/dev/null | grep "^root:" | cut -c1-6
     echo "@@KARGS"
     for f in /usr/lib/bootc/kargs.d/*; do
         [ -f "$f" ] && grep -q "rd.neednet=1" "$f" && grep -q "ip=dhcp" "$f" && echo "$f"
@@ -51,12 +53,13 @@ fi
 awk -v dir="$tmp" '
     /^@@LIST$/   { out = dir "/list";   next }
     /^@@FILE /   { n = $2; gsub("/", "_", n); out = dir "/file_" n; next }
+    /^@@IRSHADOW$/ { out = dir "/irshadow"; next }
     /^@@KARGS$/  { out = dir "/kargs";  next }
     /^@@SHADOW$/ { out = dir "/shadow"; next }
     /^@@END$/    { out = ""; next }
     out != ""    { print > out }
 ' "$tmp/raw"
-touch "$tmp/list" "$tmp/kargs" "$tmp/shadow"
+touch "$tmp/list" "$tmp/kargs" "$tmp/shadow" "$tmp/irshadow"
 for f in "$tmp"/file_*; do base64 -d <"$f" >"$f.dec" 2>/dev/null; done
 
 in_list() { awk -v p="$1" '$9 == p { found = 1 } END { exit !found }' "$tmp/list"; }
@@ -72,9 +75,17 @@ hostkey_ok() {
             "$repo/files/system/etc/ssh/dracut_ssh_host_ed25519_key.pub"
 }
 authkeys_ok() {
-    [ "$(mode_of root/.ssh/authorized_keys)" = "-rw-------" ] &&
-        same "$tmp/file_root_.ssh_authorized_keys.dec" \
-            "$repo/files/system/etc/dracut-sshd/authorized_keys"
+    # On ostree images /root is a symlink to var/roothome inside the initramfs,
+    # so the key lands there; accept either location.
+    local p
+    for p in root/.ssh/authorized_keys var/roothome/.ssh/authorized_keys; do
+        in_list "$p" || continue
+        [ "$(mode_of "$p")" = "-rw-------" ] &&
+            same "$tmp/file_$(tr / _ <<<"$p").dec" \
+                "$repo/files/system/etc/dracut-sshd/authorized_keys"
+        return
+    done
+    return 1
 }
 sshd_opts_ok() {
     [ "$(cat "$tmp/file_etc_sysconfig_dracut-sshd.dec")" = 'SSHD_OPTS="-p 2222"' ]
@@ -94,6 +105,9 @@ modules_ok() {
     done
 }
 kargs_ok() { [ -s "$tmp/kargs" ]; }
+# sshd in the initramfs has no PAM and reads etc/shadow itself: a root with no
+# entry (hostonly=no) or a '!' entry counts as locked and key login is refused.
+initrd_root_unlocked() { [ "$(cat "$tmp/irshadow")" = "root:*" ]; }
 root_locked_star() { [ "$(cat "$tmp/shadow")" = "root:*" ]; }
 
 check "usr/bin/sshd is in the initramfs" in_list usr/bin/sshd
@@ -104,6 +118,7 @@ check "sshd.service is present and enabled in sysinit.target.wants" sshd_service
 check "NetworkManager and nm-initrd-generator are in the initramfs" network_ok
 check "Bazzite dracut modules (fido2 pcsc pkcs11 tpm2-tss) are still present" modules_ok
 check "a kargs.d file sets rd.neednet=1 and ip=dhcp" kargs_ok
+check "initramfs etc/shadow has root:* (so sshd does not treat root as locked)" initrd_root_unlocked
 check "image /etc/shadow root field starts with 'root:*'" root_locked_star
 
 [ "$fails" -eq 0 ]
