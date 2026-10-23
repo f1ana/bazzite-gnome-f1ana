@@ -66,6 +66,10 @@ modules:
       - source: system
         destination: /
 
+  - type: script  # compile the GDM dconf keyfiles (login-screen no-sleep)
+    scripts:
+      - dconf-update.sh
+
   - type: kargs
     kargs:
       - rd.neednet=1  # bring up the network in the initramfs

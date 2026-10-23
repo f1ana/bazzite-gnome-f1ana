@@ -1,0 +1,7 @@
+# Login screen (GDM) power settings. The greeter doesn't read per-user
+# settings, so this is what stops it suspending after 15 minutes idle.
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-timeout=0
+sleep-inactive-battery-timeout=0
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-type='nothing'
