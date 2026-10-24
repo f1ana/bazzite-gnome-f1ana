@@ -1,0 +1,17 @@
+[Unit]
+Description=Visual Studio Code remote tunnel
+Documentation=https://code.visualstudio.com/docs/remote/tunnels
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# Needs a one-time `code tunnel user login --provider github` as the user; the
+# credentials are kept under ~/.vscode/cli. The tunnel is then reachable from
+# vscode.dev / the Remote Tunnels extension, named after the hostname by default
+# (override with `systemctl --user edit code-tunnel.service`, stored in $HOME).
+ExecStart=/usr/bin/code tunnel --accept-server-license-terms
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
