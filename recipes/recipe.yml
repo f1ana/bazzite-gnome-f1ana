@@ -95,7 +95,6 @@ modules:
         - com.ranfdev.DistroShelf
         - com.slack.Slack
         - dev.fredol.open-tv
-        - dev.lizardbyte.app.Sunshine
         - io.ente.photos
         - io.github.antimicrox.antimicrox
         - io.github.astralvixen.geforce-infinity
