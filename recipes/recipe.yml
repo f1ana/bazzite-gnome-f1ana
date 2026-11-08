@@ -54,6 +54,7 @@ modules:
         - https://proton.me/download/mail/linux/ProtonMail-desktop-beta.rpm
         - https://github.com/veracrypt/VeraCrypt/releases/download/VeraCrypt_1.26.29/veracrypt-1.26.29-Fedora-44-x86_64.rpm
         - https://zoom.us/client/latest/zoom_x86_64.rpm
+        - https://github.com/LizardByte/Sunshine/releases/download/v2026.914.233613/Sunshine-2026.914.233613-1.fc44.x86_64.rpm
 
   - type: rpm-ostree
     repos:
