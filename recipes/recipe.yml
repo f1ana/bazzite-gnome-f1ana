@@ -5,7 +5,7 @@ name: bazzite-gnome-f1ana
 description: Personal Bazzite GNOME image with native dev tools and browsers.
 
 base-image: ghcr.io/ublue-os/bazzite-dx-gnome
-image-version: stable-44 # latest is also supported
+image-version: stable-45 # latest is also supported
 
 # WARNING: Do not use RPM Fusion repos in this recipe. Bazzite's base image uses
 # negativo17 for multimedia and graphics packages (since Oct 2024), and RPM Fusion
@@ -50,11 +50,11 @@ modules:
       no-gpgchecks: true
       packages:
         - https://release.gitkraken.com/linux/gitkraken-amd64.rpm
-        - https://github.com/nekename/OpenDeck/releases/download/v2.10.1/opendeck-2.10.1-1.x86_64.rpm
+        - https://github.com/nekename/OpenDeck/releases/download/v2.14.2/opendeck-2.14.2-1.x86_64.rpm
         - https://proton.me/download/mail/linux/ProtonMail-desktop-beta.rpm
         - https://github.com/veracrypt/VeraCrypt/releases/download/VeraCrypt_1.26.29/veracrypt-1.26.29-Fedora-44-x86_64.rpm
         - https://zoom.us/client/latest/zoom_x86_64.rpm
-        - https://github.com/LizardByte/Sunshine/releases/download/v2026.914.233613/Sunshine-2026.914.233613-1.fc44.x86_64.rpm
+        - https://github.com/LizardByte/Sunshine/releases/download/v2026.914.233613/Sunshine-2026.914.233613-1.fc45.x86_64.rpm
 
   - type: rpm-ostree
     repos:

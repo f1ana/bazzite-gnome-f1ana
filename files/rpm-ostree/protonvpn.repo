@@ -1,6 +1,6 @@
 [protonvpn]
 name=Proton VPN
-baseurl=https://repo.protonvpn.com/fedora-43-stable/
+baseurl=https://repo.protonvpn.com/fedora-$releasever-stable/
 enabled=1
 gpgcheck=1
-gpgkey=https://repo.protonvpn.com/fedora-43-stable/public_key.asc
+gpgkey=https://repo.protonvpn.com/fedora-$releasever-stable/public_key.asc
