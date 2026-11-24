@@ -16,31 +16,42 @@ image-version: stable-45 # latest is also supported
 #
 
 modules:
-  - type: rpm-ostree
+  # Package installs use the dnf module, not rpm-ostree: since Bazzite rolled DX
+  # into its main repo (ublue-os/bazzite#6386) the base image is rechunked with
+  # chunkah and carries no ostree commit, so `rpm-ostree install` refuses to run.
+  # Local .repo files live in files/dnf/.
+  - type: dnf
     install:
-      - fuse-libs  # provides libfuse.so.2 for AppImage support; dropped from F44 base
+      packages:
+        - fuse-libs  # provides libfuse.so.2 for AppImage support; dropped from F44 base
 
-  - type: rpm-ostree
+  - type: dnf
     repos:
-      - vscode.repo
+      files:
+        - vscode.repo
     install:
-      - code
+      packages:
+        - code
 
-  - type: rpm-ostree
+  - type: dnf
     repos:
-      - https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
-    keys:
-      - https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+      files:
+        - https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
+      keys:
+        - https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
     install:
-      - brave-browser
+      packages:
+        - brave-browser
 
-  - type: rpm-ostree
+  - type: dnf
     repos:
-      - google-chrome.repo
+      files:
+        - google-chrome.repo
     install:
-      - google-chrome-stable
-      - obs-studio
-      - obs-studio-plugin-vkcapture
+      packages:
+        - google-chrome-stable
+        - obs-studio
+        - obs-studio-plugin-vkcapture
 
   # Fedora 45 enforces RPM signatures by default. These vendor RPMs are unsigned
   # or signed with keys we don't import, so signature checking is disabled for
@@ -56,19 +67,23 @@ modules:
         - https://zoom.us/client/latest/zoom_x86_64.rpm
         - https://github.com/LizardByte/Sunshine/releases/download/v2026.914.233613/Sunshine-2026.914.233613-1.fc45.x86_64.rpm
 
-  - type: rpm-ostree
+  # Repo is added here; the package is installed by install-protonvpn.sh, because
+  # proton-vpn-daemon's %posttrans runs `systemctl start`, which fails the dnf
+  # transaction in a build container unless SYSTEMD_OFFLINE=1 is set.
+  - type: dnf
     repos:
-      - protonvpn.repo
-    install:
-      - proton-vpn-gnome-desktop
+      files:
+        - protonvpn.repo
 
   - type: script
     scripts:
+      - install-protonvpn.sh
       - install-obs-pipewire-audio.sh
 
-  - type: rpm-ostree
+  - type: dnf
     install:
-      - dracut-sshd  # early-boot sshd in the initramfs, to unlock LUKS root over SSH
+      packages:
+        - dracut-sshd  # early-boot sshd in the initramfs, to unlock LUKS root over SSH
 
   - type: files
     files:
